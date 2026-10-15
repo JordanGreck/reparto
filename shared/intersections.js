@@ -40,7 +40,7 @@ export class IntersectionSearch {
     if (this.supports(settings)) {
       try {
         const address = parseAddress(text);
-        if (this.matchingStreets(address.street).size) return null;
+        if (!/[&/]/.test(address.street) && this.matchingStreets(address.street).size) return null;
       } catch { /* An intersection does not need a house number. */ }
     }
     if (!this.supports(settings)) throw new Error('La búsqueda de intersecciones está disponible para Paraná, Entre Ríos. Para esta localidad usá calle y altura o elegí el punto en el mapa.');

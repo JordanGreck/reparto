@@ -14,3 +14,4 @@ dialog{border:1px solid #dde5d5;border-radius:17px;box-shadow:0 25px 100px #173a
 .leaflet-marker-icon.marker-icon{border-color:#317858;background:#fff;box-shadow:0 1px 4px #183f3326}.map-panel:has(.mode-badge.editing) .map-alert{bottom:150px;right:75px}.editor-footer{position:sticky;bottom:-17px;background:#fff;padding:10px 0 0;box-shadow:0 -7px 12px #ffffffec}.field{font-size:12px}.result-card>p{font-size:12px}.result-state{font-size:12px}
 .exporting-map .toast{visibility:hidden!important}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation-duration:.01ms!important}}
+.street-name-marker{pointer-events:none!important;background:none;border:0}.supplemental-street-name{position:absolute;display:block;white-space:nowrap;color:#4d565a;font:500 11px/15px Arial,sans-serif;text-shadow:-1px -1px 1px #fff,1px -1px 1px #fff,-1px 1px 1px #fff,1px 1px 1px #fff,0 0 3px #fff;transform-origin:center;pointer-events:none;user-select:none}

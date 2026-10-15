@@ -28,7 +28,7 @@ if (!app.requestSingleInstanceLock()) { app.quit(); } else {
     win = new BrowserWindow({ width: 1440, height: 940, minWidth: 1050, minHeight: 740, title: 'Reparto · Zonas de delivery', icon: path.join(__dirname, '../assets/reparto.ico'), backgroundColor: '#f6f7f4', show: false, autoHideMenuBar: true, webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true, spellcheck: false, backgroundThrottling: !process.env.REPARTO_TEST_HIDDEN } });
     win.setMenu(null);
     win.webContents.setWindowOpenHandler(({ url }) => {
-      if (/^https:\/\/(www\.)?(openstreetmap\.org|operations\.osmfoundation\.org|nominatim\.org)\//.test(url)) shell.openExternal(url);
+      if (/^https:\/\/(www\.)?(openstreetmap\.org|operations\.osmfoundation\.org|nominatim\.org)\//.test(url) || /^https:\/\/www\.argentina\.gob\.ar\/georef(?:\/|$)/.test(url)) shell.openExternal(url);
       return { action: 'deny' };
     });
     const entryUrl = pathToFileURL(path.join(__dirname, '../dist/index.html')).href;

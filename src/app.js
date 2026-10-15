@@ -6,6 +6,7 @@ import { createIcons, MapPinned, MapPin, Plus, Search, ArrowLeft, ArrowRight, Se
 import { COLORS, clone, money, normalize, validateDocument, validateZone, overlappingZones, locateZone, History } from '../shared/domain.js';
 import { visibleZoneFills } from '../shared/zone-visibility.js';
 import { api } from './bridge.js';
+import { addSupplementalStreets } from './supplemental-map.js';
 import './style.css';
 
 const icons = { MapPinned, MapPin, Plus, Search, ArrowLeft, ArrowRight, Settings2, HelpCircle, ShieldCheck, Check, X, Layers, Pencil, Trash2, Download, Upload, Image, Undo2, Redo2, LocateFixed, Eye, EyeOff, ChevronDown, CircleCheck, AlertTriangle, MousePointer2, Navigation, FolderOpen, LoaderCircle, PackageCheck, Menu, Crosshair, Copy, RefreshCw };
@@ -18,6 +19,7 @@ const layers = new Map();
 const fillLayers = new Map();
 let persistQueue = Promise.resolve();
 let noticeTimeout;
+let supplementalMap;
 
 function toast(message, error = false) {
   $('#toast').className = `toast visible ${error ? 'error' : ''}`;
@@ -47,6 +49,7 @@ function updateHistory() {
   $('#redo').disabled = !!draft || !history.future.length;
 }
 function renderHeader() {
+  supplementalMap?.update(data.settings);
   $('#business').textContent = data.settings.business;
   $('#city-label').textContent = `${data.settings.city}, ${data.settings.province}`;
   $('#search-scope').textContent = `Buscando en ${data.settings.city}, ${data.settings.province}`;
@@ -93,6 +96,8 @@ function createMap() {
   map.createPane('zoneFills').style.zIndex = '350';
   drawGroup = L.featureGroup().addTo(map);
   setTiles();
+  supplementalMap = addSupplementalStreets(map);
+  supplementalMap.update(data.settings);
   map.on('click', (event) => {
     if (drawing) { drawPoints.push([event.latlng.lat, event.latlng.lng]); renderDrawing(); }
     else if (pinMode && !draft) { selectPoint(event.latlng); }
@@ -339,7 +344,7 @@ function renderResult() {
     $('#confirm-point').onclick = () => { result.confirmed = true; renderResult(); };
   } else {
     const match = locateZone([result.lon, result.lat], data.zones);
-    const source = result.confirmed ? 'Ubicación confirmada por el usuario' : result.precision === 'intersection' ? 'Intersección identificada · © OpenStreetMap' : 'Calle y altura identificadas por el proveedor';
+    const source = result.confirmed ? 'Ubicación confirmada por el usuario' : result.precision === 'intersection' ? `Intersección identificada · ${result.source || '© OpenStreetMap'}` : 'Calle y altura identificadas por el proveedor';
     if (match.status === 'inside') {
       selectedId = match.zone.id; renderList(); layers.forEach((layer, id) => layer.setStyle(zoneStyle(data.zones.find((z) => z.id === id)))); declutterLabels();
       el.className = 'result-card covered'; el.innerHTML = `${addressHeader}<div class="result-state green">${icon('circle-check')} Llegamos a esta dirección</div><div class="quote"><span class="quote-zone"><span class="label-dot" style="background:${match.zone.color}"></span>${esc(match.zone.name)}</span><strong>${esc(money(match.zone.price, data.settings.currency))}</strong><span>Precio del envío</span></div>${match.matches.length > 1 ? `<p class="small-text">Se aplicó la prioridad ${match.zone.priority}${match.boundary ? ' en un límite compartido' : ' entre zonas superpuestas'}.</p>` : match.boundary ? '<p class="small-text">Punto sobre el límite de esta zona: incluido en su cobertura.</p>' : ''}<div class="result-source">${icon('map-pin')} ${source}</div><button id="copy-quote" class="button secondary full">${icon('copy')} Copiar resultado</button>`;
@@ -398,7 +403,7 @@ function showBackups() {
   $('#open-data').onclick = () => api.openData().catch((e) => toast(e.message, true));
 }
 function showHelp() {
-  openDialog(`<div class="dialog-heading"><span class="mini-icon">${icon('help-circle')}</span><div><span class="eyebrow">EN POCOS PASOS</span><h2>Repartir empieza por acá</h2></div><button class="icon-button dialog-close" data-close-dialog aria-label="Cerrar">${icon('x')}</button></div><ol class="help-steps"><li><strong>Dibujá tus zonas</strong><p>Tocá Nueva zona y marcá sus esquinas. Cerrá el contorno y elegí nombre, color y precio.</p></li><li><strong>Ajustá los límites</strong><p>Al editar, arrastrá los puntos. Agregá uno en el medio de un lado o quitá uno con clic derecho.</p></li><li><strong>Consultá una dirección</strong><p>Escribí calle y altura, como “San Martín 1250”, o un cruce, como “Grella y Alcorta”. Podés usar nombres abreviados; si hay varias opciones, elegí la esquina correcta.</p></li><li><strong>Confirmá lo aproximado</strong><p>Algunas alturas son estimaciones del mapa. Revisá el marcador, movelo si hace falta y confirmá el punto.</p></li></ol><div class="help-note">${icon('shield-check')}<p>Los datos se guardan automáticamente. Usá Respaldos para hacer una copia. Ctrl+Z deshace cambios y Ctrl+Y los rehace.</p></div><p class="small-text">El número de prioridad más alto gana en cruces y límites compartidos. Un empate pide corregir las prioridades. Las zonas inactivas no se usan para calcular envíos.</p><p class="small-text">El mapa muestra las calles y la numeración disponible al acercarte. La cobertura de alturas depende de OpenStreetMap. Las intersecciones de Paraná se buscan en un catálogo local de OpenStreetMap. El mapa y las búsquedas nuevas por altura necesitan Internet.</p><a href="https://www.openstreetmap.org/fixthemap" target="_blank">Informar un error del mapa</a>`);
+  openDialog(`<div class="dialog-heading"><span class="mini-icon">${icon('help-circle')}</span><div><span class="eyebrow">EN POCOS PASOS</span><h2>Repartir empieza por acá</h2></div><button class="icon-button dialog-close" data-close-dialog aria-label="Cerrar">${icon('x')}</button></div><ol class="help-steps"><li><strong>Dibujá tus zonas</strong><p>Tocá Nueva zona y marcá sus esquinas. Cerrá el contorno y elegí nombre, color y precio.</p></li><li><strong>Ajustá los límites</strong><p>Al editar, arrastrá los puntos. Agregá uno en el medio de un lado o quitá uno con clic derecho.</p></li><li><strong>Consultá una dirección</strong><p>Escribí calle y altura, como “San Martín 1250”, o un cruce, como “Grella y Alcorta”. Podés usar nombres abreviados; si hay varias opciones, elegí la esquina correcta.</p></li><li><strong>Confirmá lo aproximado</strong><p>Algunas alturas son estimaciones del mapa. Revisá el marcador, movelo si hace falta y confirmá el punto.</p></li></ol><div class="help-note">${icon('shield-check')}<p>Los datos se guardan automáticamente. Usá Respaldos para hacer una copia. Ctrl+Z deshace cambios y Ctrl+Y los rehace.</p></div><p class="small-text">El número de prioridad más alto gana en cruces y límites compartidos. Un empate pide corregir las prioridades. Las zonas inactivas no se usan para calcular envíos.</p><p class="small-text">El mapa muestra las calles y la numeración disponible al acercarte. La cobertura de alturas depende de OpenStreetMap. Las intersecciones de Paraná se buscan en catálogos locales de OpenStreetMap y Georef / INDEC. También podés buscar Calle 893, Calle 868 o 893 y 868; una calle sin domicilio verificado requiere confirmar el punto. El mapa y las búsquedas nuevas por altura necesitan Internet.</p><a href="https://www.openstreetmap.org/fixthemap" target="_blank">Informar un error del mapa</a>`);
 }
 async function exportMap() {
   if (tileError || !navigator.onLine || tiles.isLoading()) return toast('Esperá a que termine de cargar el mapa y revisá la conexión antes de exportar.', true);

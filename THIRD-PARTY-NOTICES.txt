@@ -817,3 +817,11 @@ https://www.openstreetmap.org/copyright
 https://opendatacommons.org/licenses/odbl/1-0/
 La base derivada se distribuye íntegra con esta aplicación y su código fuente.
 Ver assets/CATALOGO-CALLES.md y los campos de fecha y fuente del archivo JSON.
+
+CALLES COMPLEMENTARIAS DE PARANÁ
+assets/parana-supplemental-streets.json: Servicio Georef – argentina.gob.ar/georef. Fuente: INDEC.
+Licencia Creative Commons Atribución 4.0 Internacional (CC BY 4.0).
+https://www.argentina.gob.ar/georef/condiciones-de-uso-y-licencia
+https://creativecommons.org/licenses/by/4.0/
+Datos modificados: selección de vías, conversión de formato y mayúsculas, derivación de cruces por vértices compartidos.
+Ver assets/CALLES-COMPLEMENTARIAS.md para procedencia, alcance y reconstrucción.

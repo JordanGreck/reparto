@@ -1,14 +1,21 @@
 import { parseAddress, classifyAddress, normalize } from './domain.js';
 import { IntersectionSearch } from './intersections.js';
+import { SupplementalStreetSearch } from './supplemental-streets.js';
 
 export class Geocoder {
-  constructor({ fetcher = fetch, cache = {}, onCache = async () => {}, delay = 1100, intersectionCatalog } = {}) {
+  constructor({ fetcher = fetch, cache = {}, onCache = async () => {}, delay = 1100, intersectionCatalog, supplementalCatalog } = {}) {
     this.fetcher = fetcher; this.cache = cache; this.onCache = onCache; this.delay = delay; this.lastRequest = 0; this.queue = Promise.resolve();
     this.intersections = new IntersectionSearch(intersectionCatalog);
+    this.supplemental = new SupplementalStreetSearch(supplementalCatalog);
   }
   search(query, settings) {
     const intersection = this.intersections.search(query, settings);
-    if (intersection) return Promise.resolve(intersection);
+    if (intersection) {
+      if (intersection.results.length) return Promise.resolve(intersection);
+      return Promise.resolve(this.supplemental.search(query, settings) || intersection);
+    }
+    const street = this.supplemental.street(query, settings);
+    if (street) return Promise.resolve(street);
     const address = parseAddress(query);
     const key = JSON.stringify([normalize(address.query), settings.city, settings.province, settings.countryCode, settings.geocoderUrl]);
     const task = this.queue.catch(() => {}).then(async () => {

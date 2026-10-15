@@ -21,4 +21,5 @@ for(const name of [...wanted].sort()){
   content+='\n';
 }
 content += '\nCATÁLOGO LOCAL DE CALLES DE PARANÁ\nassets/parana-streets.json: base de datos derivada de OpenStreetMap, bajo ODbL 1.0.\n© OpenStreetMap contributors. Extracto regional de Geofabrik.\nhttps://www.openstreetmap.org/copyright\nhttps://opendatacommons.org/licenses/odbl/1-0/\nLa base derivada se distribuye íntegra con esta aplicación y su código fuente.\nVer assets/CATALOGO-CALLES.md y los campos de fecha y fuente del archivo JSON.\n';
+content += '\nCALLES COMPLEMENTARIAS DE PARANÁ\nassets/parana-supplemental-streets.json: Servicio Georef – argentina.gob.ar/georef. Fuente: INDEC.\nLicencia Creative Commons Atribución 4.0 Internacional (CC BY 4.0).\nhttps://www.argentina.gob.ar/georef/condiciones-de-uso-y-licencia\nhttps://creativecommons.org/licenses/by/4.0/\nDatos modificados: selección de vías, conversión de formato y mayúsculas, derivación de cruces por vértices compartidos.\nVer assets/CALLES-COMPLEMENTARIAS.md para procedencia, alcance y reconstrucción.\n';
 await fs.writeFile('THIRD-PARTY-NOTICES.txt',content);

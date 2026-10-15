@@ -4,11 +4,11 @@ Aplicación de escritorio para Windows 10/11 de 64 bits. Permite dibujar zonas d
 
 ## Abrir la aplicación
 
-Descargá el instalador de la [versión 1.0.2](https://github.com/jordangreck-cyber/reparto/releases/tag/v1.0.2). El repositorio es privado: necesitás iniciar sesión con una cuenta que tenga acceso. Para actualizar una instalación existente, cerrá Reparto y ejecutá el instalador con el mismo usuario de Windows; se conservan las zonas, precios y configuración.
+Descargá el instalador de la [versión 1.0.3](https://github.com/jordangreck-cyber/reparto/releases/tag/v1.0.3). El repositorio es privado: necesitás iniciar sesión con una cuenta que tenga acceso. Para actualizar una instalación existente, cerrá Reparto y ejecutá el instalador con el mismo usuario de Windows; se conservan las zonas, precios y configuración.
 
 Para llevar tus datos a otra PC, exportá un respaldo desde **Respaldos**, copiá ese archivo junto con el instalador e importalo en la otra PC. Los datos del local no forman parte del repositorio.
 
-El instalador se genera en `entrega/Reparto-Instalador-1.0.2.exe`. Instala para el usuario actual, permite elegir carpeta y crea un acceso directo. No necesita Node.js en el equipo del comercio.
+El instalador se genera en `entrega/Reparto-Instalador-1.0.3.exe`. Instala para el usuario actual, permite elegir carpeta y crea un acceso directo. No necesita Node.js en el equipo del comercio.
 
 También puede abrirse `entrega/win-unpacked/Reparto.exe` conservando **toda** esa carpeta. El instalador de esta entrega no tiene certificado de firma de código.
 
@@ -55,6 +55,7 @@ npm run build
 npm run test:desktop
 node scripts/check-zone-colors.mjs
 node scripts/check-intersections.mjs
+node scripts/check-supplemental-streets.mjs
 npm run dist
 ```
 
@@ -69,6 +70,8 @@ La compilación usa Electron y electron-builder con destino NSIS x64. Requiere a
 - `shared/zone-visibility.js`: recorte de los rellenos del mapa sin modificar las zonas originales.
 - `shared/intersections.js`: nombres abreviados, alias, intersecciones y desambiguación local de calles.
 - `assets/parana-streets.json`: catálogo local de calles y nodos compartidos de Paraná, con fuente, fechas y licencia ODbL.
+- `assets/parana-supplemental-streets.json`: complemento Georef / INDEC con calles numeradas faltantes, trazados y cruces; licencia CC BY 4.0. Ver `assets/CALLES-COMPLEMENTARIAS.md`.
+- `src/supplemental-map.js`: nombres y trazados adicionales que no alteran las zonas guardadas.
 - `shared/geocoder.js`: cliente Nominatim, cola y caché de consultas.
 - `desktop/`: ventana Electron, API acotada de IPC, diálogos de archivos, captura PNG y persistencia.
 - `tests/`: pruebas de dominio, almacenamiento y servicio de direcciones.

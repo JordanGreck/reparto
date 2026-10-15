@@ -1,41 +1,41 @@
-# Verificación de Reparto 1.0.2
+# Verificación de Reparto 1.0.3
 
-## Cambio
+## Cambio y conservación de datos
 
-El buscador acepta intersecciones de Paraná con nombres parciales, sin exigir una altura. Por ejemplo, «Grella y Alcorta» encuentra «Amancio Alcorta y Padre Grella», identifica el punto y calcula la tarifa de la zona correspondiente. Acepta el orden inverso, mayúsculas, nombres sin tildes y separadores como «esquina», «esq.», «con», «/» y «&».
+Se incorpora una capa complementaria de calles numeradas oficiales de Paraná (Servicio Georef / INDEC), incluyendo Calle 893 y Calle 868. Contiene 125 registros de vías, correspondientes a 122 nombres, y 281 nodos de intersección. Los trazados se consultaron el 15 de octubre de 2026 y se compararon con el extracto OpenStreetMap existente para excluir calles ya identificadas.
 
-Cuando varias esquinas coinciden, el operador debe elegir una. Si no se encuentra el cruce, se ofrece ubicarlo manualmente y no se informa incorrectamente que está fuera de cobertura. Al mover el marcador hay que confirmar el nuevo punto antes de cotizar.
+El catálogo original de OpenStreetMap permanece idéntico al de 1.0.2. La geometría de las zonas, los precios, las prioridades, los colores, la configuración, el formato de guardado y la identidad de la aplicación se conservan. No se ejecutó el instalador sobre el perfil real del usuario.
 
-Se mantiene la búsqueda por calle y altura y la representación de colores sin mezcla de la versión 1.0.1. La geometría guardada, el formato de los respaldos, la identidad de la aplicación y el cálculo de tarifas conservan su compatibilidad.
+## Pruebas realizadas
 
-## Validaciones
+- 59 pruebas de lógica aprobadas, incluyendo los 50 casos anteriores y 9 casos nuevos de calles oficiales, calles con nombre numérico, alturas sin verificar, cruces existentes e inexistentes, ambigüedad y conservación de la prioridad de las tarifas.
+- 16 comprobaciones de escritorio aprobadas: creación y edición, precios, búsquedas por calle y altura, ubicaciones aproximadas, deshacer/rehacer, respaldo, importación, exportación PNG, reapertura y aislamiento.
+- 6 comprobaciones visuales de colores aprobadas: zonas anidadas, selección, prioridades, edición/cancelación y colores sin mezcla en el PNG exportado.
+- 5 comprobaciones del buscador de intersecciones anterior aprobadas: Grella y Alcorta, nombres completos y abreviados, orden inverso, confirmación tras mover el marcador y selección entre opciones.
+- 6 comprobaciones de calles complementarias aprobadas en desarrollo usando una copia aislada de las tres zonas guardadas: nombres visibles, consulta por calle sin inventar alturas, esquina nueva con la tarifa existente, cruces no encontrados, compatibilidad de Grella y Alcorta y conservación de zonas y configuración después de cancelar una edición y reabrir.
+- Revisión visual de un encuadre real de OpenStreetMap: las calles 893 y 868 se muestran sobre sus trazados y el marcador se ubica en el cruce oficial.
+- Las 6 comprobaciones de calles complementarias también pasaron en el ejecutable empaquetado 1.0.3. Se verificó que ambos catálogos y el buscador incluidos coinciden con las fuentes probadas.
+- Instalador NSIS x64 1.0.3 generado correctamente.
 
-- 50 pruebas automatizadas aprobadas: dominio, geocodificación, recorte visual y búsqueda de intersecciones. Incluyen nombres compuestos, alias, ambigüedad, cruces inexistentes y el ejemplo real solicitado.
-- 16 comprobaciones de escritorio aprobadas: creación de zonas, consulta por calle y altura, precios, ubicaciones aproximadas, edición de vértices, deshacer/rehacer, respaldo, restauración, exportación y persistencia al reabrir.
-- 5 comprobaciones específicas de intersecciones aprobadas tanto en desarrollo como en el ejecutable empaquetado: esquina real y tarifa, variantes del nombre, confirmación después de mover el punto, cruce no encontrado y selección entre coincidencias.
-- Captura del ejecutable empaquetado revisada: búsqueda «Grella y Alcorta», nombre completo del cruce, marcador y tarifa de la zona de prueba.
-- Compilación de producción e instalador NSIS x64 1.0.2 generados correctamente.
+Se comparó el archivo real de zonas con la copia previa al trabajo: sigue idéntico, sin modificaciones. Los archivos de prueba permanecen en .test-data y están excluidos del repositorio y del instalador.
 
-Las pruebas de escritorio usan datos separados de las zonas reales del comercio y mapas de fondo sintéticos. La búsqueda de intersecciones utiliza el catálogo real incluido. El ejemplo solicitado corresponde al nodo OpenStreetMap 331938704, latitud -31.7355837 y longitud -60.5075758. No hubo errores de la aplicación durante las comprobaciones de escritorio.
+## Límites
 
-## Datos y alcance
+La ampliación cubre calles numeradas disponibles en el nomenclador oficial que faltaban en el catálogo anterior. No representa un relevamiento nuevo de todas las calles de la ciudad. La fecha de descarga no es una fecha de relevamiento. Las calles sin altura verificada requieren ubicar y confirmar el domicilio antes de cotizar.
 
-El catálogo contiene 1363 nombres de vías y 3497 nodos de intersección. Procede del extracto de Argentina de Geofabrik con fecha de datos 2026-10-14T20:21:12Z y limita las intersecciones al municipio de Paraná. Los cruces requieren un nodo compartido en OpenStreetMap; no se calculan por la mera superposición visual de dos líneas. Incluye atribución y licencia ODbL 1.0.
-
-La búsqueda local de intersecciones corresponde a Paraná, Entre Ríos. Puede haber omisiones o cambios posteriores en los datos cartográficos. Las consultas de calle y altura mantienen el proveedor existente; sus respuestas se simulan en las pruebas de regresión.
-
-Windows de 64 bits. El instalador conserva el mismo identificador de la aplicación y no elimina los datos del usuario. No se ejecutó el asistente de actualización sobre la instalación real del usuario. El instalador no tiene firma digital.
+Windows 10/11 de 64 bits. El instalador conserva los datos del mismo usuario de Windows y no tiene firma digital. Para trasladar zonas a otra PC sigue siendo necesario exportar e importar un respaldo.
 
 ## Repetir
 
-```powershell
+~~~powershell
 npm ci
 npm test
 npm run build
 npm run test:desktop
+node scripts/check-zone-colors.mjs
 node scripts/check-intersections.mjs
+node scripts/check-supplemental-streets.mjs
 npm run dist
 $env:REPARTO_PACKAGED = '1'
-node scripts/check-intersections.mjs
-```
-
+node scripts/check-supplemental-streets.mjs
+~~~

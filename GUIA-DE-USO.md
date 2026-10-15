@@ -38,6 +38,8 @@ Podés escribir `Grella y Alcorta`, `Alcorta y Grella`, `Grella esquina Alcorta`
 
 Las intersecciones identificadas muestran directamente la zona y el precio. Si movés el marcador, tenés que confirmar la nueva posición. Esta función usa un catálogo local de calles de **Paraná, Entre Ríos**, incluido con la aplicación; el mapa visible sigue necesitando conexión para cargar partes nuevas.
 
+También se incluyen calles numeradas del nomenclador oficial, como **Calle 893** y **Calle 868**. Sus nombres aparecen al acercar el mapa. Podés buscar `893 y 868`, `893 y Balbín` o `868 y Parera` para consultar el cruce. Al buscar solamente `Calle 893` o una altura sin verificar, la aplicación muestra la calle y pide mover y confirmar el marcador en el domicilio. No calcula una tarifa hasta que confirmes el punto.
+
 El resultado puede ser:
 
 - **Llegamos a esta dirección:** muestra la zona y su precio.
