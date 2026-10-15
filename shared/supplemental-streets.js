@@ -32,7 +32,7 @@ export class SupplementalStreetSearch extends IntersectionSearch {
     if (!this.supports(settings)) return null;
     const response = super.search(query, settings);
     if (!response) return null;
-    return { ...response, results: response.results.map((result) => ({ ...result, source: streetSource, reason: 'Intersección identificada en el trazado oficial de calles de Georef / INDEC.' })) };
+    return { ...response, results: response.results.map((result) => ({ ...result, source: this.catalog.searchSource || streetSource, reason: this.catalog.intersectionReason || 'Intersección identificada en el trazado oficial de calles de Georef / INDEC.' })) };
   }
   street(query, settings) {
     if (!this.supports(settings)) return null;
@@ -45,16 +45,16 @@ export class SupplementalStreetSearch extends IntersectionSearch {
       const heightFirst = text.match(/^(\d+[a-z]?)\s+calle\s+(\d+)$/i);
       if (heightFirst) { name = `Calle ${heightFirst[2]}`; number = heightFirst[1]; }
       else if (numeric) { name = `Calle ${numeric[1]}`; number = numeric[2]; }
-      else { try { const address = parseAddress(text); name = address.street; number = address.number; } catch { return null; } }
+      else { try { const address = parseAddress(text); name = address.street; number = address.number; } catch { if (!this.catalog.namedStreets) return null; } }
     }
     const matches = [...this.matchingStreets(name)].map((i) => this.catalog.streets[i]).filter((s) => s.supplemental);
     if (!matches.length) return null;
-    return { kind: 'street', local: true, cached: false, results: matches.map((street) => {
+    return { kind: 'street', local: true, cached: false, ...(this.catalog.namedStreets ? { hasHouseNumber: Boolean(number) } : {}), results: matches.map((street) => {
       const [lon, lat] = streetMidpoint(street.paths);
       return {
         lon, lat, label: `${street.name}${number ? ` ${number}` : ''}`,
-        detail: `${this.catalog.city}, ${this.catalog.province} · Calle del nomenclador oficial`,
-        precision: 'approximate', source: streetSource, streetId: street.id, query: text,
+        detail: `${this.catalog.city}, ${this.catalog.province} · ${this.catalog.streetDetail || 'Calle del nomenclador oficial'}`,
+        precision: 'approximate', source: this.catalog.searchSource || streetSource, streetId: street.id, query: text,
         reason: number ? 'Encontramos la calle, pero no hay una ubicación verificada para esa altura. Mové el marcador al domicilio y confirmá el punto antes de calcular el envío.' : 'Encontramos la calle. El marcador muestra un punto de referencia, no un domicilio. Movelo al lugar de entrega y confirmá el punto, o buscá una intersección.',
       };
     }) };

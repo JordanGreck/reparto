@@ -1,29 +1,34 @@
-# Verificación de Reparto 1.0.3
+# Verificación de Reparto 1.0.4
 
 ## Cambio y conservación de datos
 
-Se incorpora una capa complementaria de calles numeradas oficiales de Paraná (Servicio Georef / INDEC), incluyendo Calle 893 y Calle 868. Contiene 125 registros de vías, correspondientes a 122 nombres, y 281 nodos de intersección. Los trazados se consultaron el 15 de octubre de 2026 y se compararon con el extracto OpenStreetMap existente para excluir calles ya identificadas.
+Se completan 12 nombres sobre 15 vías que ya estaban dibujadas sin nombre en el sector Crausaz–Paracao. Se agregan 28 nodos compartidos para búsquedas de intersecciones. La geometría proviene del mismo extracto OpenStreetMap que la aplicación; los nombres se cotejaron con Georef / INDEC y la captura aportada por el usuario. Ver assets/SECTOR-CRAUSAZ.md para procedencia, asociación de cada nombre y diferencias entre fuentes.
 
-El catálogo original de OpenStreetMap permanece idéntico al de 1.0.2. La geometría de las zonas, los precios, las prioridades, los colores, la configuración, el formato de guardado y la identidad de la aplicación se conservan. No se ejecutó el instalador sobre el perfil real del usuario.
+El cambio visual solo agrega etiquetas: no vuelve a dibujar esas calles ni reemplaza nombres del mapa base. Los dos catálogos anteriores conservan exactamente sus bytes. Los resultados anteriores tienen prioridad. No cambian la geometría de zonas, colores, precios, prioridades, identidad de la aplicación, configuración ni formato de almacenamiento.
 
 ## Pruebas realizadas
 
-- 59 pruebas de lógica aprobadas, incluyendo los 50 casos anteriores y 9 casos nuevos de calles oficiales, calles con nombre numérico, alturas sin verificar, cruces existentes e inexistentes, ambigüedad y conservación de la prioridad de las tarifas.
-- 16 comprobaciones de escritorio aprobadas: creación y edición, precios, búsquedas por calle y altura, ubicaciones aproximadas, deshacer/rehacer, respaldo, importación, exportación PNG, reapertura y aislamiento.
-- 6 comprobaciones visuales de colores aprobadas: zonas anidadas, selección, prioridades, edición/cancelación y colores sin mezcla en el PNG exportado.
-- 5 comprobaciones del buscador de intersecciones anterior aprobadas: Grella y Alcorta, nombres completos y abreviados, orden inverso, confirmación tras mover el marcador y selección entre opciones.
-- 6 comprobaciones de calles complementarias aprobadas en desarrollo usando una copia aislada de las tres zonas guardadas: nombres visibles, consulta por calle sin inventar alturas, esquina nueva con la tarifa existente, cruces no encontrados, compatibilidad de Grella y Alcorta y conservación de zonas y configuración después de cancelar una edición y reabrir.
-- Revisión visual de un encuadre real de OpenStreetMap: las calles 893 y 868 se muestran sobre sus trazados y el marcador se ubica en el cruce oficial.
-- Las 6 comprobaciones de calles complementarias también pasaron en el ejecutable empaquetado 1.0.3. Se verificó que ambos catálogos y el buscador incluidos coinciden con las fuentes probadas.
-- Instalador NSIS x64 1.0.3 generado correctamente.
+- 68 pruebas de lógica aprobadas, incluyendo las 59 anteriores y 9 casos específicos del sector: nombres y apellidos, calles numéricas, alturas no verificadas, cruces reales, calles paralelas, compatibilidad de catálogos, resultados del proveedor y caché anterior sin resultados.
+- 16 comprobaciones generales de escritorio aprobadas: dibujo y edición de zonas, tarifas, búsquedas, confirmación manual, deshacer/rehacer, respaldos, importación, exportación PNG, reapertura y aislamiento.
+- 6 comprobaciones de colores aprobadas, incluyendo superposición, selección, edición/cancelación y exportación sin mezcla de colores.
+- 5 comprobaciones del buscador de intersecciones anterior aprobadas.
+- 6 comprobaciones del complemento de calles 893 y 868 aprobadas, con conservación de las zonas y configuración guardadas.
+- 6 comprobaciones nuevas del sector aprobadas usando una copia aislada de las tres zonas del usuario: rótulos visibles, cruces del norte y sur, tarifas de las zonas originales, alturas aproximadas, cruces inexistentes y persistencia después de cancelar una edición y reabrir.
+- Las mismas 6 comprobaciones nuevas también pasaron en el ejecutable empaquetado 1.0.4.
+- Revisión visual sobre un encuadre real de OpenStreetMap: Calle 1666 y Ángela O. Sors aparecen sobre sus calles, con el marcador en el vértice compartido. Revisión de los rótulos del sur en las pruebas de escritorio.
+- Reconstrucción del nuevo catálogo reproducible byte a byte con las fuentes conservadas.
+- Verificación del contenido empaquetado: versión 1.0.4, ambos catálogos anteriores, catálogo nuevo, buscadores y lógica de zonas coinciden con los archivos probados. No contiene zonas del usuario, perfiles de prueba ni capturas personales.
+- Instalador NSIS x64 1.0.4 generado correctamente. No se ejecutó sobre el perfil real del usuario.
 
-Se comparó el archivo real de zonas con la copia previa al trabajo: sigue idéntico, sin modificaciones. Los archivos de prueba permanecen en .test-data y están excluidos del repositorio y del instalador.
+Se comparó el archivo real de zonas con la copia previa al trabajo: permanece idéntico. Los perfiles y resultados de prueba se guardan en .test-data, excluido del repositorio y del instalador.
 
 ## Límites
 
-La ampliación cubre calles numeradas disponibles en el nomenclador oficial que faltaban en el catálogo anterior. No representa un relevamiento nuevo de todas las calles de la ciudad. La fecha de descarga no es una fecha de relevamiento. Las calles sin altura verificada requieren ubicar y confirmar el domicilio antes de cotizar.
+Se completan los tramos identificados del sector solicitado; no es un relevamiento de todas las calles de Paraná. Los nombres numéricos de esta ampliación proceden de la referencia del usuario y no se presentan como registros oficiales Georef. Calle 1661 ya estaba incluida. Las divergencias de nombres preexistentes, especialmente el tramo rotulado Crisólogo Larralde en el mapa base, se documentan sin renombrarlo.
 
-Windows 10/11 de 64 bits. El instalador conserva los datos del mismo usuario de Windows y no tiene firma digital. Para trasladar zonas a otra PC sigue siendo necesario exportar e importar un respaldo.
+Al acercar el mapa se muestran los rótulos que tienen espacio. Los domicilios sin altura verificada requieren confirmar el punto antes de cotizar. Las búsquedas anteriores con resultados se conservan y las calles alfabéticas con altura siguen consultando al proveedor antes de recurrir al complemento.
+
+Windows 10/11 de 64 bits. El instalador conserva los datos del mismo usuario de Windows y no tiene certificado de firma digital. Para trasladar las zonas a otra PC se necesita exportar e importar un respaldo.
 
 ## Repetir
 
@@ -35,7 +40,8 @@ npm run test:desktop
 node scripts/check-zone-colors.mjs
 node scripts/check-intersections.mjs
 node scripts/check-supplemental-streets.mjs
+node scripts/check-sector-crausaz.mjs
 npm run dist
 $env:REPARTO_PACKAGED = '1'
-node scripts/check-supplemental-streets.mjs
+node scripts/check-sector-crausaz.mjs
 ~~~

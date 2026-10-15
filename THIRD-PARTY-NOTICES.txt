@@ -825,3 +825,11 @@ https://www.argentina.gob.ar/georef/condiciones-de-uso-y-licencia
 https://creativecommons.org/licenses/by/4.0/
 Datos modificados: selección de vías, conversión de formato y mayúsculas, derivación de cruces por vértices compartidos.
 Ver assets/CALLES-COMPLEMENTARIAS.md para procedencia, alcance y reconstrucción.
+
+NOMBRES COMPLEMENTARIOS DEL SECTOR CRAUSAZ–PARACAO
+assets/parana-sector-crausaz.json: geometría derivada de OpenStreetMap contributors / Geofabrik, ODbL 1.0.
+Nombres alfabéticos cotejados con Servicio Georef / INDEC, CC BY 4.0.
+Nombres numéricos aportados en una referencia del usuario, no presentados como nomenclador oficial.
+Datos modificados: selección de vías sin nombre, asignación de nombres revisados y derivación de cruces por vértices compartidos.
+La base derivada completa se distribuye en la aplicación y el código fuente.
+Ver assets/SECTOR-CRAUSAZ.md para trazabilidad y límites.

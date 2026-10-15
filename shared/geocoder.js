@@ -1,26 +1,32 @@
 import { parseAddress, classifyAddress, normalize } from './domain.js';
 import { IntersectionSearch } from './intersections.js';
 import { SupplementalStreetSearch } from './supplemental-streets.js';
+import sectorCatalog from '../assets/parana-sector-crausaz.json' with { type: 'json' };
 
 export class Geocoder {
   constructor({ fetcher = fetch, cache = {}, onCache = async () => {}, delay = 1100, intersectionCatalog, supplementalCatalog } = {}) {
     this.fetcher = fetcher; this.cache = cache; this.onCache = onCache; this.delay = delay; this.lastRequest = 0; this.queue = Promise.resolve();
     this.intersections = new IntersectionSearch(intersectionCatalog);
     this.supplemental = new SupplementalStreetSearch(supplementalCatalog);
+    this.sector = new SupplementalStreetSearch(sectorCatalog);
   }
   search(query, settings) {
     const intersection = this.intersections.search(query, settings);
     if (intersection) {
       if (intersection.results.length) return Promise.resolve(intersection);
-      return Promise.resolve(this.supplemental.search(query, settings) || intersection);
+      const supplemental = this.supplemental.search(query, settings);
+      if (supplemental?.results.length) return Promise.resolve(supplemental);
+      return Promise.resolve(this.sector.search(query, settings) || supplemental || intersection);
     }
     const street = this.supplemental.street(query, settings);
     if (street) return Promise.resolve(street);
+    const sectorStreet = this.sector.street(query, settings);
+    if (sectorStreet && (!sectorStreet.hasHouseNumber || sectorStreet.results.every((r) => /^Calle \d+ \d+[a-z]?$/i.test(r.label)))) return Promise.resolve(sectorStreet);
     const address = parseAddress(query);
     const key = JSON.stringify([normalize(address.query), settings.city, settings.province, settings.countryCode, settings.geocoderUrl]);
     const task = this.queue.catch(() => {}).then(async () => {
       const cached = this.cache[key];
-      if (cached && Date.now() - cached.time < 7 * 24 * 60 * 60 * 1000) return { ...cached.value, cached: true };
+      if (cached && Date.now() - cached.time < 7 * 24 * 60 * 60 * 1000) return { ...(sectorStreet && !cached.value.results.length ? sectorStreet : cached.value), cached: true };
       const endpoint = new URL(settings.geocoderUrl);
       if (endpoint.protocol !== 'https:') throw new Error('El buscador requiere un proveedor HTTPS.');
       const params = { street: `${address.number} ${address.street}`, city: settings.city, state: settings.province, countrycodes: settings.countryCode, format: 'jsonv2', addressdetails: '1', limit: '6', 'accept-language': 'es' };
@@ -45,7 +51,9 @@ export class Geocoder {
       }
       const results = raw.slice(0, 6).map((r) => classifyAddress(r, address, settings)).filter(Boolean);
       const unique = results.filter((r, i) => results.findIndex((other) => other.lat === r.lat && other.lon === r.lon) === i);
-      const value = { results: unique, cached: false };
+      // Preserve existing address-provider results. Use the added street only when
+      // the provider has no result; never turn a reference point into a house number.
+      const value = unique.length || !sectorStreet ? { results: unique, cached: false } : sectorStreet;
       this.cache[key] = { time: Date.now(), value };
       const entries = Object.entries(this.cache).sort((a, b) => b[1].time - a[1].time).slice(0, 500);
       this.cache = Object.fromEntries(entries);

@@ -40,6 +40,8 @@ Las intersecciones identificadas muestran directamente la zona y el precio. Si m
 
 También se incluyen calles numeradas del nomenclador oficial, como **Calle 893** y **Calle 868**. Sus nombres aparecen al acercar el mapa. Podés buscar `893 y 868`, `893 y Balbín` o `868 y Parera` para consultar el cruce. Al buscar solamente `Calle 893` o una altura sin verificar, la aplicación muestra la calle y pide mover y confirmar el marcador en el domicilio. No calcula una tarifa hasta que confirmes el punto.
 
+En el sector de **Pablo Crausaz–Paracao** también se completan nombres que antes estaban en blanco, como **Calle 1666**, **Ángela O. Sors**, **Calle 1853**, **Calle 1855**, **Calle 1165** y **Calle 1663**. Acercá el mapa para verlos. Podés buscar `1666 y Sors`, `Greca y Sors`, `1855 y 1165` o el nombre solo. Si buscás una calle sin domicilio verificado, confirmá el punto de entrega antes de cotizar.
+
 El resultado puede ser:
 
 - **Llegamos a esta dirección:** muestra la zona y su precio.

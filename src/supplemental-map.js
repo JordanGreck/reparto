@@ -1,6 +1,7 @@
 import L from 'leaflet';
 import { streetData } from '../shared/supplemental-streets.js';
 import { normalize } from '../shared/domain.js';
+import sector from '../assets/parana-sector-crausaz.json' with { type: 'json' };
 
 export function addSupplementalStreets(map) {
   const roadsPane = map.createPane('supplementalRoads');
@@ -8,14 +9,15 @@ export function addSupplementalStreets(map) {
   const namesPane = map.createPane('supplementalNames');
   namesPane.style.zIndex = '450'; namesPane.style.pointerEvents = 'none';
   const roads = L.layerGroup(), names = L.layerGroup().addTo(map);
-  const streets = streetData.streets.filter((s) => s.supplemental);
+  const streets = [...streetData.streets, ...sector.streets].filter((s) => s.supplemental);
   for (const street of streets) {
+    if (street.labelsOnly) continue;
     const paths = street.paths.map((path) => path.map(([lon, lat]) => [lat, lon]));
     const options = { pane: 'supplementalRoads', interactive: false, pmIgnore: true, lineCap: 'round', lineJoin: 'round' };
     L.polyline(paths, { ...options, color: '#adb4b7', weight: 6, opacity: 0.8 }).addTo(roads);
     L.polyline(paths, { ...options, color: '#fff', weight: 4, opacity: 0.95 }).addTo(roads);
   }
-  const attribution = '<a href="https://www.argentina.gob.ar/georef" target="_blank" rel="noreferrer">Servicio Georef / INDEC</a> · CC BY 4.0';
+  const attribution = '<a href="https://www.argentina.gob.ar/georef" target="_blank" rel="noreferrer">Servicio Georef / INDEC</a> · CC BY 4.0 · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">© OpenStreetMap</a> · nombres complementados';
   let enabled = false;
   function render() {
     names.clearLayers();

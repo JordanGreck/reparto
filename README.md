@@ -4,11 +4,11 @@ Aplicación de escritorio para Windows 10/11 de 64 bits. Permite dibujar zonas d
 
 ## Abrir la aplicación
 
-Descargá el instalador de la [versión 1.0.3](https://github.com/jordangreck-cyber/reparto/releases/tag/v1.0.3). El repositorio es privado: necesitás iniciar sesión con una cuenta que tenga acceso. Para actualizar una instalación existente, cerrá Reparto y ejecutá el instalador con el mismo usuario de Windows; se conservan las zonas, precios y configuración.
+Descargá el instalador de la [versión 1.0.4](https://github.com/jordangreck-cyber/reparto/releases/tag/v1.0.4). El repositorio es privado: necesitás iniciar sesión con una cuenta que tenga acceso. Para actualizar una instalación existente, cerrá Reparto y ejecutá el instalador con el mismo usuario de Windows; se conservan las zonas, precios y configuración.
 
 Para llevar tus datos a otra PC, exportá un respaldo desde **Respaldos**, copiá ese archivo junto con el instalador e importalo en la otra PC. Los datos del local no forman parte del repositorio.
 
-El instalador se genera en `entrega/Reparto-Instalador-1.0.3.exe`. Instala para el usuario actual, permite elegir carpeta y crea un acceso directo. No necesita Node.js en el equipo del comercio.
+El instalador se genera en `entrega/Reparto-Instalador-1.0.4.exe`. Instala para el usuario actual, permite elegir carpeta y crea un acceso directo. No necesita Node.js en el equipo del comercio.
 
 También puede abrirse `entrega/win-unpacked/Reparto.exe` conservando **toda** esa carpeta. El instalador de esta entrega no tiene certificado de firma de código.
 
@@ -19,6 +19,7 @@ La aplicación empieza sin zonas ni precios inventados. La ciudad inicial es Par
 - Mapa de calles con zoom, desplazamiento y numeración cuando el mapa la contiene y el zoom lo permite.
 - Dibujo de polígonos, edición de vértices, colores, nombres, descripción, tarifa y activación.
 - Búsqueda por calle y altura o por intersecciones de Paraná con nombres abreviados, como Grella y Alcorta. No hace consultas automáticas mientras se escribe.
+- Nombres complementarios del sector Crausaz–Paracao: 12 calles que estaban sin identificar, con búsquedas como `1666 y Sors` o `1855 y 1165`.
 - Distinción entre dirección localizada, aproximada, no encontrada, fuera de zona y falta de cobertura configurada.
 - Confirmación de alturas interpoladas y puntos elegidos o movidos manualmente.
 - Prioridades explícitas para cruces de zonas. El número mayor prevalece. En un límite compartido con empate, no se cotiza automáticamente.
@@ -56,6 +57,7 @@ npm run test:desktop
 node scripts/check-zone-colors.mjs
 node scripts/check-intersections.mjs
 node scripts/check-supplemental-streets.mjs
+node scripts/check-sector-crausaz.mjs
 npm run dist
 ```
 
@@ -71,6 +73,7 @@ La compilación usa Electron y electron-builder con destino NSIS x64. Requiere a
 - `shared/intersections.js`: nombres abreviados, alias, intersecciones y desambiguación local de calles.
 - `assets/parana-streets.json`: catálogo local de calles y nodos compartidos de Paraná, con fuente, fechas y licencia ODbL.
 - `assets/parana-supplemental-streets.json`: complemento Georef / INDEC con calles numeradas faltantes, trazados y cruces; licencia CC BY 4.0. Ver `assets/CALLES-COMPLEMENTARIAS.md`.
+- `assets/parana-sector-crausaz.json`: etiquetas y cruces de 12 calles del sector revisado, sin modificar los catálogos anteriores. Ver [procedencia y alcance](assets/SECTOR-CRAUSAZ.md).
 - `src/supplemental-map.js`: nombres y trazados adicionales que no alteran las zonas guardadas.
 - `shared/geocoder.js`: cliente Nominatim, cola y caché de consultas.
 - `desktop/`: ventana Electron, API acotada de IPC, diálogos de archivos, captura PNG y persistencia.
@@ -121,4 +124,3 @@ Referencias oficiales consultadas:
 Un local y un archivo de zonas por perfil de Windows; hasta 100 zonas y 500 vértices por zona. Polígonos simples sin agujeros; no hay sincronización entre equipos, rutas, pedidos ni cuentas. La moneda cambia la presentación de las tarifas, sin conversión de valores. Cambiar la ciudad no traslada las zonas: hay que dibujarlas y guardar la nueva vista inicial.
 
 Los datos importados se validan con las mismas reglas que los creados en pantalla. Las zonas activas superpuestas deben tener prioridades diferentes. Una búsqueda no encontrada o fallida nunca se interpreta como fuera de zona.
-
