@@ -2,14 +2,14 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import '@geoman-io/leaflet-geoman-free';
 import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';
-import { createIcons, MapPinned, MapPin, Plus, Search, ArrowLeft, ArrowRight, Settings2, HelpCircle, ShieldCheck, Check, X, Layers, Pencil, Trash2, Download, Upload, Image, Undo2, Redo2, LocateFixed, Eye, EyeOff, ChevronDown, CircleCheck, AlertTriangle, MousePointer2, Navigation, FolderOpen, LoaderCircle, PackageCheck, Menu, Crosshair, Copy, RefreshCw } from 'lucide';
+import { createIcons, MapPinned, MapPin, Plus, Search, ArrowLeft, ArrowRight, Settings2, HelpCircle, ShieldCheck, Check, X, Layers, Pencil, Trash2, Download, Upload, Image, Undo2, Redo2, LocateFixed, Eye, EyeOff, ChevronDown, CircleCheck, AlertTriangle, MousePointer2, Navigation, FolderOpen, LoaderCircle, PackageCheck, Menu, Crosshair, Copy, RefreshCw, Mail } from 'lucide';
 import { COLORS, clone, money, normalize, validateDocument, validateZone, overlappingZones, locateZone, History } from '../shared/domain.js';
 import { visibleZoneFills } from '../shared/zone-visibility.js';
 import { api } from './bridge.js';
 import { addSupplementalStreets } from './supplemental-map.js';
 import './style.css';
 
-const icons = { MapPinned, MapPin, Plus, Search, ArrowLeft, ArrowRight, Settings2, HelpCircle, ShieldCheck, Check, X, Layers, Pencil, Trash2, Download, Upload, Image, Undo2, Redo2, LocateFixed, Eye, EyeOff, ChevronDown, CircleCheck, AlertTriangle, MousePointer2, Navigation, FolderOpen, LoaderCircle, PackageCheck, Menu, Crosshair, Copy, RefreshCw };
+const icons = { MapPinned, MapPin, Plus, Search, ArrowLeft, ArrowRight, Settings2, HelpCircle, ShieldCheck, Check, X, Layers, Pencil, Trash2, Download, Upload, Image, Undo2, Redo2, LocateFixed, Eye, EyeOff, ChevronDown, CircleCheck, AlertTriangle, MousePointer2, Navigation, FolderOpen, LoaderCircle, PackageCheck, Menu, Crosshair, Copy, RefreshCw, Mail };
 const icon = (name, cls = '') => `<i data-lucide="${name}" class="${cls}"></i>`;
 const refreshIcons = () => createIcons({ icons, attrs: { 'stroke-width': 1.8 } });
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -403,7 +403,29 @@ function showBackups() {
   $('#open-data').onclick = () => api.openData().catch((e) => toast(e.message, true));
 }
 function showHelp() {
-  openDialog(`<div class="dialog-heading"><span class="mini-icon">${icon('help-circle')}</span><div><span class="eyebrow">EN POCOS PASOS</span><h2>Repartir empieza por acá</h2></div><button class="icon-button dialog-close" data-close-dialog aria-label="Cerrar">${icon('x')}</button></div><ol class="help-steps"><li><strong>Dibujá tus zonas</strong><p>Tocá Nueva zona y marcá sus esquinas. Cerrá el contorno y elegí nombre, color y precio.</p></li><li><strong>Ajustá los límites</strong><p>Al editar, arrastrá los puntos. Agregá uno en el medio de un lado o quitá uno con clic derecho.</p></li><li><strong>Consultá una dirección</strong><p>Escribí calle y altura, como “San Martín 1250”, o un cruce, como “Grella y Alcorta”. Podés usar nombres abreviados; si hay varias opciones, elegí la esquina correcta.</p></li><li><strong>Confirmá lo aproximado</strong><p>Algunas alturas son estimaciones del mapa. Revisá el marcador, movelo si hace falta y confirmá el punto.</p></li></ol><div class="help-note">${icon('shield-check')}<p>Los datos se guardan automáticamente. Usá Respaldos para hacer una copia. Ctrl+Z deshace cambios y Ctrl+Y los rehace.</p></div><p class="small-text">El número de prioridad más alto gana en cruces y límites compartidos. Un empate pide corregir las prioridades. Las zonas inactivas no se usan para calcular envíos.</p><p class="small-text">El mapa muestra las calles y la numeración disponible al acercarte. La cobertura de alturas depende de OpenStreetMap. Las intersecciones de Paraná se buscan en catálogos locales de OpenStreetMap y Georef / INDEC. También podés buscar Calle 893, Calle 868 o 893 y 868; una calle sin domicilio verificado requiere confirmar el punto. El mapa y las búsquedas nuevas por altura necesitan Internet.</p><a href="https://www.openstreetmap.org/fixthemap" target="_blank">Informar un error del mapa</a>`);
+  openDialog(`<div class="dialog-heading"><span class="mini-icon">${icon('help-circle')}</span><div><span class="eyebrow">EN POCOS PASOS</span><h2>Repartir empieza por acá</h2></div><button class="icon-button dialog-close" data-close-dialog aria-label="Cerrar">${icon('x')}</button></div>
+    <ol class="help-steps">
+      <li><strong>Dibujá tus zonas</strong><p>Tocá Nueva zona y marcá sus esquinas. Cerrá el contorno y elegí nombre, color y precio.</p></li>
+      <li><strong>Ajustá los límites</strong><p>Al editar, arrastrá los puntos. Agregá uno en el medio de un lado o quitá uno con clic derecho.</p></li>
+      <li><strong>Consultá una dirección</strong><p>Escribí calle y altura, como “San Martín 1250”, o un cruce, como “Grella y Alcorta”. Podés usar nombres abreviados; si hay varias opciones, elegí la esquina correcta.</p></li>
+      <li><strong>Confirmá lo aproximado</strong><p>Algunas alturas son estimaciones del mapa. Revisá el marcador, movelo si hace falta y confirmá el punto.</p></li>
+    </ol>
+    <details class="help-priority">
+      <summary>Cómo funciona la prioridad de las zonas</summary>
+      <p>La prioridad decide qué zona y tarifa se usan cuando una dirección pertenece a más de una zona activa, porque se superponen o comparten un límite. <strong>Gana el número de prioridad más alto.</strong></p>
+      <div class="help-priority-example"><strong>Ejemplo</strong><p>Zona General: prioridad <strong>1</strong>, envío <strong>$3.000</strong>.<br>Zona Barrio: prioridad <strong>2</strong>, envío <strong>$2.000</strong>.</p><p>Si la dirección está dentro de ambas, se aplica <strong>Zona Barrio y se cobran $2.000</strong>. La prioridad decide qué tarifa usar; no se elige automáticamente la más cara ni la más barata.</p></div>
+      <p><strong>Para cambiarla:</strong> seleccioná la zona, tocá <strong>Editar zona</strong> y abrí <strong>Prioridad y superposiciones</strong>. Poné un número mayor en la zona que querés que tenga preferencia, aceptá los cruces si los hay y guardá.</p>
+      <p><strong>Si hay empate:</strong> dos zonas activas superpuestas necesitan prioridades distintas para poder guardarse. En un límite compartido con empate, se pide corregir la prioridad antes de calcular la tarifa.</p>
+      <p>En la parte superpuesta se muestra el color de la zona activa con mayor prioridad. Las zonas inactivas no participan del cálculo.</p>
+    </details>
+    <div class="help-note">${icon('shield-check')}<p>Los datos se guardan automáticamente. Usá Respaldos para hacer una copia. Ctrl+Z deshace cambios y Ctrl+Y los rehace.</p></div>
+    <p class="small-text">El mapa muestra las calles y la numeración disponible al acercarte. La cobertura de alturas depende de OpenStreetMap. Las intersecciones de Paraná se buscan en catálogos locales de OpenStreetMap y Georef / INDEC. También podés buscar Calle 893, Calle 868 o 893 y 868; una calle sin domicilio verificado requiere confirmar el punto. El mapa y las búsquedas nuevas por altura necesitan Internet.</p>
+    <a href="https://www.openstreetmap.org/fixthemap" target="_blank">Informar un error del mapa</a>
+    <section class="help-contact" aria-labelledby="help-contact-title"><h3 id="help-contact-title">¿Tenés una idea para mejorar Reparto?</h3><p>Podés enviar tus sugerencias, consultas o comentarios a:</p><a id="contact-email" href="mailto:jordangreck@gmail.com" target="_blank" rel="noopener noreferrer">${icon('mail')} jordangreck@gmail.com</a><button id="copy-contact-email" class="button secondary">${icon('copy')} Copiar email</button></section>`);
+  $('#copy-contact-email').onclick = async () => {
+    try { await navigator.clipboard.writeText('jordangreck@gmail.com'); toast('Email copiado.'); }
+    catch { toast('No se pudo copiar. El email es jordangreck@gmail.com.', true); }
+  };
 }
 async function exportMap() {
   if (tileError || !navigator.onLine || tiles.isLoading()) return toast('Esperá a que termine de cargar el mapa y revisá la conexión antes de exportar.', true);

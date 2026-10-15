@@ -4,11 +4,11 @@ Aplicación de escritorio para Windows 10/11 de 64 bits. Permite dibujar zonas d
 
 ## Abrir la aplicación
 
-Descargá el instalador de la [versión 1.0.4](https://github.com/jordangreck-cyber/reparto/releases/tag/v1.0.4). El repositorio es privado: necesitás iniciar sesión con una cuenta que tenga acceso. Para actualizar una instalación existente, cerrá Reparto y ejecutá el instalador con el mismo usuario de Windows; se conservan las zonas, precios y configuración.
+Descargá el instalador de la [versión 1.0.5](https://github.com/jordangreck-cyber/reparto/releases/tag/v1.0.5). El repositorio es privado: necesitás iniciar sesión con una cuenta que tenga acceso. Para actualizar una instalación existente, cerrá Reparto y ejecutá el instalador con el mismo usuario de Windows; se conservan las zonas, precios y configuración.
 
 Para llevar tus datos a otra PC, exportá un respaldo desde **Respaldos**, copiá ese archivo junto con el instalador e importalo en la otra PC. Los datos del local no forman parte del repositorio.
 
-El instalador se genera en `entrega/Reparto-Instalador-1.0.4.exe`. Instala para el usuario actual, permite elegir carpeta y crea un acceso directo. No necesita Node.js en el equipo del comercio.
+El instalador se genera en `entrega/Reparto-Instalador-1.0.5.exe`. Instala para el usuario actual, permite elegir carpeta y crea un acceso directo. No necesita Node.js en el equipo del comercio.
 
 También puede abrirse `entrega/win-unpacked/Reparto.exe` conservando **toda** esa carpeta. El instalador de esta entrega no tiene certificado de firma de código.
 

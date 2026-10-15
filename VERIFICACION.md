@@ -1,47 +1,29 @@
-# Verificación de Reparto 1.0.4
+# Verificación de Reparto 1.0.5
 
-## Cambio y conservación de datos
+## Alcance
 
-Se completan 12 nombres sobre 15 vías que ya estaban dibujadas sin nombre en el sector Crausaz–Paracao. Se agregan 28 nodos compartidos para búsquedas de intersecciones. La geometría proviene del mismo extracto OpenStreetMap que la aplicación; los nombres se cotejaron con Georef / INDEC y la captura aportada por el usuario. Ver assets/SECTOR-CRAUSAZ.md para procedencia, asociación de cada nombre y diferencias entre fuentes.
+Se amplía Ayuda con una explicación desplegable de las prioridades, un ejemplo con dos tarifas, los pasos para editarlas y el comportamiento ante empates y zonas inactivas. Se agrega el contacto jordangreck@gmail.com, con enlace para abrir la aplicación de correo y botón para copiar la dirección. La guía de uso incorpora el mismo contenido.
 
-El cambio visual solo agrega etiquetas: no vuelve a dibujar esas calles ni reemplaza nombres del mapa base. Los dos catálogos anteriores conservan exactamente sus bytes. Los resultados anteriores tienen prioridad. No cambian la geometría de zonas, colores, precios, prioridades, identidad de la aplicación, configuración ni formato de almacenamiento.
+El permiso de apertura externa agregado se limita exactamente a mailto:jordangreck@gmail.com. Las reglas existentes para enlaces del mapa se conservan. La aplicación informa cómo copiar el email si no se puede abrir un cliente de correo.
 
-## Pruebas realizadas
+## Verificación realizada
 
-- 68 pruebas de lógica aprobadas, incluyendo las 59 anteriores y 9 casos específicos del sector: nombres y apellidos, calles numéricas, alturas no verificadas, cruces reales, calles paralelas, compatibilidad de catálogos, resultados del proveedor y caché anterior sin resultados.
-- 16 comprobaciones generales de escritorio aprobadas: dibujo y edición de zonas, tarifas, búsquedas, confirmación manual, deshacer/rehacer, respaldos, importación, exportación PNG, reapertura y aislamiento.
-- 6 comprobaciones de colores aprobadas, incluyendo superposición, selección, edición/cancelación y exportación sin mezcla de colores.
-- 5 comprobaciones del buscador de intersecciones anterior aprobadas.
-- 6 comprobaciones del complemento de calles 893 y 868 aprobadas, con conservación de las zonas y configuración guardadas.
-- 6 comprobaciones nuevas del sector aprobadas usando una copia aislada de las tres zonas del usuario: rótulos visibles, cruces del norte y sur, tarifas de las zonas originales, alturas aproximadas, cruces inexistentes y persistencia después de cancelar una edición y reabrir.
-- Las mismas 6 comprobaciones nuevas también pasaron en el ejecutable empaquetado 1.0.4.
-- Revisión visual sobre un encuadre real de OpenStreetMap: Calle 1666 y Ángela O. Sors aparecen sobre sus calles, con el marcador en el vértice compartido. Revisión de los rótulos del sur en las pruebas de escritorio.
-- Reconstrucción del nuevo catálogo reproducible byte a byte con las fuentes conservadas.
-- Verificación del contenido empaquetado: versión 1.0.4, ambos catálogos anteriores, catálogo nuevo, buscadores y lógica de zonas coinciden con los archivos probados. No contiene zonas del usuario, perfiles de prueba ni capturas personales.
-- Instalador NSIS x64 1.0.4 generado correctamente. No se ejecutó sobre el perfil real del usuario.
+- Compilación de la interfaz e instalador NSIS x64 1.0.5 completadas correctamente.
+- Las 68 pruebas de lógica existentes pasaron, incluyendo zonas, prioridades, colores, direcciones, intersecciones, calles complementarias, almacenamiento y recuperación.
+- Revisión visual de Ayuda, explicación desplegada y contacto, tanto en la ventana normal como en el tamaño mínimo de 1050 × 740. Sin desbordamiento horizontal.
+- Comprobación interactiva del enlace: solicita abrir exactamente mailto:jordangreck@gmail.com. Se interceptó la apertura externa durante la revisión para no abrir un cliente real ni enviar mensajes.
+- Comprobación de Copiar email y su aviso de éxito. Se interceptó la escritura para conservar el portapapeles del usuario.
+- Comprobación de alternativas ante errores al abrir el correo o copiar la dirección.
+- Cierre y reapertura de Ayuda sin duplicar controles ni producir errores de interfaz.
+- Las mismas comprobaciones de Ayuda y contacto pasaron en el ejecutable empaquetado 1.0.5.
+- La revisión usó una copia aislada de las tres zonas guardadas. Esa copia conservó exactamente las zonas y la configuración, y el archivo real del usuario sigue idéntico al respaldo tomado al comenzar esta tarea.
+- Se compararon con 1.0.4 los catálogos de calles, el buscador, la lógica de zonas y los rellenos: sus archivos permanecen idénticos.
+- Se verificó que el ejecutable empaquetado incluye la versión 1.0.5, el nuevo contacto, la guía y los mismos catálogos y lógica probados.
 
-Se comparó el archivo real de zonas con la copia previa al trabajo: permanece idéntico. Los perfiles y resultados de prueba se guardan en .test-data, excluido del repositorio y del instalador.
+Las 39 comprobaciones amplias de escritorio documentadas en 1.0.4 no se repitieron en esta actualización de Ayuda. No se cambió el cálculo de tarifas ni las funciones de mapa, búsqueda o almacenamiento. No se agregaron pruebas permanentes que simplemente repliquen el contenido de Ayuda.
 
-## Límites
+## Actualización
 
-Se completan los tramos identificados del sector solicitado; no es un relevamiento de todas las calles de Paraná. Los nombres numéricos de esta ampliación proceden de la referencia del usuario y no se presentan como registros oficiales Georef. Calle 1661 ya estaba incluida. Las divergencias de nombres preexistentes, especialmente el tramo rotulado Crisólogo Larralde en el mapa base, se documentan sin renombrarlo.
+Cerrar Reparto e instalar Reparto-Instalador-1.0.5.exe con el mismo usuario de Windows. Los datos del local se conservan. El instalador no se ejecutó sobre el perfil real del usuario.
 
-Al acercar el mapa se muestran los rótulos que tienen espacio. Los domicilios sin altura verificada requieren confirmar el punto antes de cotizar. Las búsquedas anteriores con resultados se conservan y las calles alfabéticas con altura siguen consultando al proveedor antes de recurrir al complemento.
-
-Windows 10/11 de 64 bits. El instalador conserva los datos del mismo usuario de Windows y no tiene certificado de firma digital. Para trasladar las zonas a otra PC se necesita exportar e importar un respaldo.
-
-## Repetir
-
-~~~powershell
-npm ci
-npm test
-npm run build
-npm run test:desktop
-node scripts/check-zone-colors.mjs
-node scripts/check-intersections.mjs
-node scripts/check-supplemental-streets.mjs
-node scripts/check-sector-crausaz.mjs
-npm run dist
-$env:REPARTO_PACKAGED = '1'
-node scripts/check-sector-crausaz.mjs
-~~~
+El enlace de email depende del cliente de correo configurado en Windows; Copiar email permite usar un correo web u otra aplicación. El envío lo realiza la persona desde su correo. Windows 10/11 de 64 bits. El instalador no tiene certificado de firma digital.

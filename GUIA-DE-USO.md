@@ -58,13 +58,19 @@ El botón con una mira, a la derecha del mapa, permite consultar un punto manual
 
 Al guardar, la app avisa si la zona se cruza con otra. Podés corregir el contorno o entrar a **Prioridad y superposiciones**.
 
-El número más alto tiene preferencia. Por ejemplo, si “Centro” tiene prioridad 1 y “Promoción” tiene prioridad 2, una dirección dentro de ambas usa “Promoción”. Debés aceptar los cruces antes de guardar.
+El número más alto tiene preferencia. Por ejemplo, si “Zona General” tiene prioridad 1 y envío de $3.000, y “Zona Barrio” tiene prioridad 2 y envío de $2.000, una dirección dentro de ambas usa “Zona Barrio” y se cobran $2.000. La prioridad elige la zona: no se compara cuál tarifa es más cara o más barata.
+
+Para cambiarla, seleccioná una zona, tocá **Editar zona** y abrí **Prioridad y superposiciones**. Poné un número mayor en la zona que deba tener preferencia. Debés aceptar los cruces antes de guardar. Las zonas inactivas no participan del cálculo.
 
 Los colores no se mezclan: en el área compartida se muestra únicamente el relleno de la zona activa con mayor prioridad. Las calles siguen visibles a través del color. Seleccionar una zona no cambia esa prioridad. Las zonas inactivas quedan visualmente por debajo de las activas.
 
 Durante la edición se muestra el color de la zona que estás ajustando por delante de las demás para que puedas ver su contorno completo. Al guardar o cancelar, el mapa vuelve a aplicar las prioridades. Esto también se respeta al exportar una imagen.
 
-La misma regla se usa en los límites compartidos. Si dos zonas empatan, la aplicación pide corregir las prioridades y no inventa una tarifa.
+La misma regla se usa en los límites compartidos. Si dos zonas activas superpuestas empatan, necesitás asignar prioridades distintas para guardarlas. En un límite compartido con empate, la aplicación pide corregir las prioridades antes de calcular la tarifa. Podés consultar el ejemplo dentro de **Ayuda → Cómo funciona la prioridad de las zonas**.
+
+## Contacto y sugerencias
+
+Para proponer mejoras, hacer consultas o enviar comentarios sobre Reparto, escribí a **jordangreck@gmail.com**. En **Ayuda**, al final, encontrás el enlace para abrir tu aplicación de correo y el botón **Copiar email** para usarlo en el correo que prefieras.
 
 ## Guardar y hacer copias
 
