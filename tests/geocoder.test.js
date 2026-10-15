@@ -1,0 +1,14 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { Geocoder } from '../shared/geocoder.js';
+import { createDocument } from '../shared/domain.js';
+const settings=createDocument().settings;
+const item={lat:'-31.736',lon:'-60.532',osm_type:'node',category:'place',type:'house',place_rank:30,address:{road:'San Martín',house_number:'1250',city:'Paraná',state:'Entre Ríos',country_code:'ar'}};
+const response = (value,status=200) => ({ok:status===200,status,json:async()=>value});
+test('repeated query uses cache without hitting provider again',async()=>{let calls=0;const service=new Geocoder({delay:0,fetcher:async()=>{calls++;return response([item]);}});const a=await service.search('San Martín 1250',settings);const b=await service.search('san martin 1250',settings);assert.equal(calls,1);assert.equal(a.cached,false);assert.equal(b.cached,true);});
+test('network failures are errors, never out-of-coverage responses',async()=>{const g=new Geocoder({delay:0,fetcher:async()=>{throw new Error('offline');}});await assert.rejects(g.search('San Martín 1250',settings),/no significa/);});
+test('rate limit returns an actionable error',async()=>{const g=new Geocoder({delay:0,fetcher:async()=>response({},429)});await assert.rejects(g.search('San Martín 1250',settings),/demasiadas/);});
+test('malformed server data is not treated as a missing address',async()=>{const g=new Geocoder({delay:0,fetcher:async()=>response({})});await assert.rejects(g.search('San Martín 1250',settings),/compatible/);});
+test('street fallback is approximate and not cached as exact',async()=>{let calls=0;const g=new Geocoder({delay:0,fetcher:async()=>response(++calls===1?[]:[{...item,place_rank:26,address:{...item.address,house_number:undefined}}])});const r=await g.search('San Martín 1250',settings);assert.equal(calls,2);assert.equal(r.results[0].precision,'approximate');});
+test('queue spaces requests and serializes concurrent queries',async()=>{const times=[];const g=new Geocoder({delay:35,fetcher:async()=>{times.push(Date.now());return response([item]);}});await Promise.all([g.search('San Martín 1250',settings),g.search('San Martín 1251',settings),g.search('San Martín 1252',settings)]);assert.ok(times[1]-times[0]>=30);assert.ok(times[2]-times[1]>=30);});
+test('requests contain city, province and country and do not autoplay suggestions',async()=>{let url;const g=new Geocoder({delay:0,fetcher:async(u)=>{url=new URL(u);return response([item]);}});assert.equal(url,undefined);await g.search('San Martín 1250',settings);assert.equal(url.searchParams.get('city'),'Paraná');assert.equal(url.searchParams.get('state'),'Entre Ríos');assert.equal(url.searchParams.get('countrycodes'),'ar');});

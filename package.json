@@ -1,0 +1,50 @@
+{
+  "name": "reparto",
+  "version": "1.0.2",
+  "description": "Zonas de delivery y tarifas para Paraná, Entre Ríos",
+  "author": "Reparto",
+  "private": true,
+  "type": "module",
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "start": "npm run build && electron .",
+    "test": "node --test tests/*.test.js",
+    "test:desktop": "node scripts/smoke.mjs",
+    "dist": "npm run build && electron-builder --win nsis --x64"
+  },
+  "dependencies": {
+    "@geoman-io/leaflet-geoman-free": "2.20.2",
+    "@turf/boolean-point-in-polygon": "^7.3.0",
+    "@turf/intersect": "^7.3.0",
+    "@turf/kinks": "^7.3.0",
+    "leaflet": "1.9.4",
+    "lucide": "^0.577.0",
+    "polyclip-ts": "0.16.8"
+  },
+  "devDependencies": {
+    "electron": "44.7.2",
+    "electron-builder": "26.15.3",
+    "playwright": "^1.58.2",
+    "vite": "8.3.4"
+  },
+  "build": {
+    "appId": "ar.reparto.desktop",
+    "productName": "Reparto",
+    "artifactName": "Reparto-Instalador-${version}.${ext}",
+    "directories": { "output": "entrega" },
+    "files": ["dist/**/*", "desktop/**/*", "shared/**/*", "assets/**/*", "package.json", "GUIA-DE-USO.md", "THIRD-PARTY-NOTICES.txt"],
+    "win": { "target": "nsis", "icon": "assets/reparto.ico", "signAndEditExecutable": true },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "Reparto",
+      "deleteAppDataOnUninstall": false,
+      "installerLanguages": ["es"],
+      "language": "3082"
+    }
+  }
+}
