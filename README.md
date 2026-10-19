@@ -1,10 +1,18 @@
 # Reparto
 
-Aplicación de escritorio para Windows 10/11 de 64 bits. Permite dibujar zonas de delivery sobre el mapa de Paraná, asignar colores y tarifas en pesos argentinos y consultar direcciones o intersecciones, como **Grella y Alcorta**, para determinar cobertura y precio.
+Reparto nació de una conversación por teléfono con una amiga y de un problema cotidiano en una rotisería de Paraná, Entre Ríos: saber cuánto cobrar por cada envío sin perder tiempo ni generar confusiones.
+
+Para consultar las tarifas, el equipo buscaba las direcciones en un mapa físico con las zonas de reparto marcadas. En medio del trabajo, encontrar una calle podía demorar la atención; las calles o numeraciones desactualizadas complicaban la búsqueda, y confundir una zona terminaba en un precio mal informado. Una consulta sencilla podía encadenar demoras, pérdidas y estrés para todo el negocio.
+
+Cuando me contó lo que pasaba, le respondí: «Esto se puede resolver. Mañana te mando una primera versión para que la prueben». Así empezó Reparto: una herramienta pensada a partir de una necesidad concreta, para que consultar una dirección y comunicar el costo del envío sea más claro y rápido.
+
+La idea es simple: reducir los errores al cotizar y el tiempo dedicado a buscar direcciones, para que el equipo pueda atender con más tranquilidad. Resolver esa pequeña fricción cotidiana puede mejorar mucho la dinámica de todo el local.
+
+Reparto es una aplicación de escritorio para Windows 10/11 de 64 bits. Permite dibujar zonas de delivery sobre el mapa de Paraná, asignar colores y tarifas en pesos argentinos y consultar direcciones o intersecciones, como **Grella y Alcorta**, para determinar cobertura y precio.
 
 ## Abrir la aplicación
 
-Descargá el instalador de la [versión 1.0.5](https://github.com/jordangreck-cyber/reparto/releases/tag/v1.0.5). El repositorio es privado: necesitás iniciar sesión con una cuenta que tenga acceso. Para actualizar una instalación existente, cerrá Reparto y ejecutá el instalador con el mismo usuario de Windows; se conservan las zonas, precios y configuración.
+Descargá el instalador de la [versión 1.0.5](https://github.com/jordangreck-cyber/reparto/releases/tag/v1.0.5). El repositorio y sus descargas son públicos. Para actualizar una instalación existente, cerrá Reparto y ejecutá el instalador con el mismo usuario de Windows; se conservan las zonas, precios y configuración.
 
 Para llevar tus datos a otra PC, exportá un respaldo desde **Respaldos**, copiá ese archivo junto con el instalador e importalo en la otra PC. Los datos del local no forman parte del repositorio.
 
