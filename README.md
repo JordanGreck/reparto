@@ -1,12 +1,12 @@
 # Reparto
 
-Reparto nació de una conversación por teléfono con una amiga y de un problema frecuente en su lugar de trabajo, una rotisería de Paraná, Entre Ríos: saber cuánto cobrar por cada envío sin perder tiempo ni generar confusiones.
+Reparto nació de una conversación por teléfono con una amiga y de un problema frecuente en su lugar de trabajo, una rotisería de Paraná, Entre Ríos.
 
-Para consultar las tarifas, el equipo buscaba las direcciones en un mapa físico con las zonas de reparto marcadas. En medio del trabajo, encontrar una calle podía demorar la atención; las calles o numeraciones desactualizadas complicaban la búsqueda, y confundir una zona terminaba en un precio mal informado. Una consulta sencilla podía encadenar demoras, pérdidas y estrés para todo el negocio.
+Para consultar las tarifas, el personal de recepción de pedidos buscaba las direcciones en un mapa físico con las zonas de delivery marcadas. En medio del trabajo, encontrar una calle podía demorar la atención; las calles o numeraciones desactualizadas complicaban la búsqueda, y confundir una zona terminaba en una cotización mala. Esto no solo generaba perdidas ocasionales económicas, sino que posibles fricciones en la comunicacion y el estres.
 
 Cuando me contó lo que pasaba, le respondí: «Esto se puede resolver. Mañana te mando una primera versión para que la prueben». Así empezó Reparto: una herramienta pensada a partir de una necesidad concreta, para que consultar una dirección y comunicar el costo del envío sea más claro y rápido.
 
-La idea es simple: reducir los errores al cotizar y el tiempo dedicado a buscar direcciones, para que el equipo pueda atender con más tranquilidad. Resolver esa pequeña fricción cotidiana puede mejorar mucho la dinámica de todo el local.
+La idea es simple: reducir los errores al cotizar y el tiempo dedicado a buscar direcciones, para que el equipo pueda atender con más tranquilidad. Resolver esa pequeña fricción cotidiana puede mejorar mucho la dinámica de todo el local. Mejor desempeño, menos estres y mas eficiencia.
 
 Reparto es una aplicación de escritorio para Windows 10/11 de 64 bits. Permite dibujar zonas de delivery sobre el mapa de Paraná, asignar colores y tarifas en pesos argentinos y consultar direcciones o intersecciones, como **Grella y Alcorta**, para determinar cobertura y precio.
 
