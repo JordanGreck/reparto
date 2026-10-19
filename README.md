@@ -1,6 +1,6 @@
 # Reparto
 
-Reparto nació de una conversación por teléfono con una amiga y de un problema cotidiano en una rotisería de Paraná, Entre Ríos: saber cuánto cobrar por cada envío sin perder tiempo ni generar confusiones.
+Reparto nació de una conversación por teléfono con una amiga y de un problema frecuente en su lugar de trabajo, una rotisería de Paraná, Entre Ríos: saber cuánto cobrar por cada envío sin perder tiempo ni generar confusiones.
 
 Para consultar las tarifas, el equipo buscaba las direcciones en un mapa físico con las zonas de reparto marcadas. En medio del trabajo, encontrar una calle podía demorar la atención; las calles o numeraciones desactualizadas complicaban la búsqueda, y confundir una zona terminaba en un precio mal informado. Una consulta sencilla podía encadenar demoras, pérdidas y estrés para todo el negocio.
 
