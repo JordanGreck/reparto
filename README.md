@@ -12,7 +12,7 @@ Reparto es una aplicación de escritorio para Windows 10/11 de 64 bits que funci
 
 ## Abrir la aplicación
 
-Descargá el instalador de la [versión 1.0.5](https://github.com/jordangreck-cyber/reparto/releases/tag/v1.0.5). El repositorio y sus descargas son públicos. Para actualizar una instalación existente, cerrá Reparto y ejecutá el instalador con el mismo usuario de Windows; se conservan las zonas, precios y configuración.
+Descargá el instalador de la [versión 1.0.5](https://github.com/JordanGreck/reparto/releases/tag/v1.0.5). El repositorio y sus descargas son públicos. Para actualizar una instalación existente, cerrá Reparto y ejecutá el instalador con el mismo usuario de Windows; se conservan las zonas, precios y configuración.
 
 Para llevar tus datos a otra PC, exportá un respaldo desde **Respaldos**, copiá ese archivo junto con el instalador e importalo en la otra PC. Los datos del local no forman parte del repositorio.
 

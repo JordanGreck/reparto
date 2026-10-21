@@ -1,7 +1,7 @@
 # Informar un problema de seguridad
 
 Si encontrás una posible vulnerabilidad en Reparto, usá el canal privado de
-GitHub: [informar una vulnerabilidad](https://github.com/jordangreck-cyber/reparto/security/advisories/new).
+GitHub: [informar una vulnerabilidad](https://github.com/JordanGreck/reparto/security/advisories/new).
 
 También podés escribir a [jordangreck@gmail.com](mailto:jordangreck@gmail.com).
 Evitá publicar detalles de explotación en los issues públicos mientras se
